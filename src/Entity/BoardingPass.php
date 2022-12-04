@@ -33,7 +33,16 @@ class BoardingPass
     private ?\DateTimeInterface $departure_time = null;
 
     #[ORM\ManyToOne(inversedBy: 'boardingPasses')]
-    private ?Passenger $relation = null;
+    private ?Passenger $passenger = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $gate = null;
+
+    public function __construct()
+    {
+        // $this->products = new ArrayCollection();
+        $this->departure_time = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -112,14 +121,26 @@ class BoardingPass
         return $this;
     }
 
-    public function getRelation(): ?Passenger
+    public function getPasenger(): ?Passenger
     {
-        return $this->relation;
+        return $this->passenger;
     }
 
-    public function setRelation(?Passenger $relation): self
+    public function setPassenger(?Passenger $passenger): self
     {
-        $this->relation = $relation;
+        $this->passenger = $passenger;
+
+        return $this;
+    }
+
+    public function getGate(): ?string
+    {
+        return $this->gate;
+    }
+
+    public function setGate(?string $gate): self
+    {
+        $this->gate = $gate;
 
         return $this;
     }
