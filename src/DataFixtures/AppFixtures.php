@@ -53,6 +53,7 @@ class AppFixtures extends Fixture
             ->setGate('45B')
             ->setOrigin('Gerona Airport GRO')
             ->setDestination('Stockholm ARN')
+            ->setBaggageInfo('Baggage drop at ticket counter 344.')
             ->setDepartureTime(date_create('2023-03-15 16:00:00'))
             ->setPassenger($passenger1);
 
@@ -66,6 +67,7 @@ class AppFixtures extends Fixture
             ->setGate('22')
             ->setOrigin('Stockholm')
             ->setDestination('New York JFK')
+            ->setBaggageInfo('Baggage will we automatically transferred from your last leg.')
             ->setDepartureTime(date_create('2023-03-16 03:40:00'))
             ->setPassenger($passenger1);
 
@@ -103,6 +105,7 @@ class AppFixtures extends Fixture
             ->setGate('8B')
             ->setOrigin('Paris CDG 2C')
             ->setDestination('Doha DOH')
+            ->setBaggageInfo('Baggage drop at ticket counter 212.')
             ->setDepartureTime(date_create('2023-02-10 17:05:00'))
             ->setPassenger($passenger2);
 
@@ -116,6 +119,7 @@ class AppFixtures extends Fixture
             ->setGate('22')
             ->setOrigin('Doha DOH')
             ->setDestination('Male MLE')
+            ->setBaggageInfo('Baggage will we automatically transferred from your last leg.')
             ->setDepartureTime(date_create('2023-02-11 04:35:00'))
             ->setPassenger($passenger2);
 

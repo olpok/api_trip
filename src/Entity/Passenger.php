@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\PassengerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\PassengerRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PassengerRepository::class)]
 class Passenger
@@ -13,15 +14,19 @@ class Passenger
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['list_passengers'])] //['group1', 'group2']
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['list_passengers'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['list_passengers'])]
     private ?string $lastname = null;
 
-    #[ORM\OneToMany(mappedBy: 'relation', targetEntity: BoardingPass::class)]
+    #[ORM\OneToMany(mappedBy: 'passenger', targetEntity: BoardingPass::class)]
+    #[Groups(['list_passengers', 'show_passenger'])]
     private Collection $boardingPasses;
 
     public function __construct()
@@ -70,7 +75,7 @@ class Passenger
     {
         if (!$this->boardingPasses->contains($boardingPass)) {
             $this->boardingPasses->add($boardingPass);
-            $boardingPass->setRelation($this);
+            $boardingPass->setPassenger($this);
         }
 
         return $this;
@@ -80,8 +85,8 @@ class Passenger
     {
         if ($this->boardingPasses->removeElement($boardingPass)) {
             // set the owning side to null (unless already changed)
-            if ($boardingPass->getRelation() === $this) {
-                $boardingPass->setRelation(null);
+            if ($boardingPass->getPassenger() === $this) {
+                $boardingPass->setPassenger(null);
             }
         }
 
