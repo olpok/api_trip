@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\BoardingPassRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BoardingPassRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: BoardingPassRepository::class)]
 class BoardingPass
@@ -15,34 +16,38 @@ class BoardingPass
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['show_passenger'])]
     private ?string $transport_type = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['show_passenger'])]
     private ?string $transport_number = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $seat = null;
-
     #[ORM\Column(length: 255)]
+    #[Groups(['show_passenger'])]
     private ?string $origin = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['show_passenger'])]
     private ?string $destination = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['show_passenger'])]
+    private ?string $gate = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['show_passenger'])]
+    private ?string $seat = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['show_passenger'])]
+    private ?string $baggage_info = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $departure_time = null;
 
     #[ORM\ManyToOne(inversedBy: 'boardingPasses')]
     private ?Passenger $passenger = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $gate = null;
-
-    public function __construct()
-    {
-        // $this->products = new ArrayCollection();
-        $this->departure_time = new \DateTime();
-    }
 
     public function getId(): ?int
     {
@@ -73,18 +78,6 @@ class BoardingPass
         return $this;
     }
 
-    public function getSeat(): ?string
-    {
-        return $this->seat;
-    }
-
-    public function setSeat(?string $seat): self
-    {
-        $this->seat = $seat;
-
-        return $this;
-    }
-
     public function getOrigin(): ?string
     {
         return $this->origin;
@@ -109,6 +102,41 @@ class BoardingPass
         return $this;
     }
 
+    public function getGate(): ?string
+    {
+        return $this->gate;
+    }
+
+    public function setGate(?string $gate): self
+    {
+        $this->gate = $gate;
+
+        return $this;
+    }
+    public function getSeat(): ?string
+    {
+        return $this->seat;
+    }
+
+    public function setSeat(?string $seat): self
+    {
+        $this->seat = $seat;
+
+        return $this;
+    }
+
+    public function getBaggageInfo(): ?string
+    {
+        return $this->baggage_info;
+    }
+
+    public function setBaggageInfo(?string $baggage_info): self
+    {
+        $this->baggage_info = $baggage_info;
+
+        return $this;
+    }
+
     public function getDepartureTime(): ?\DateTimeInterface
     {
         return $this->departure_time;
@@ -121,7 +149,7 @@ class BoardingPass
         return $this;
     }
 
-    public function getPasenger(): ?Passenger
+    public function getPassenger(): ?Passenger
     {
         return $this->passenger;
     }
@@ -129,18 +157,6 @@ class BoardingPass
     public function setPassenger(?Passenger $passenger): self
     {
         $this->passenger = $passenger;
-
-        return $this;
-    }
-
-    public function getGate(): ?string
-    {
-        return $this->gate;
-    }
-
-    public function setGate(?string $gate): self
-    {
-        $this->gate = $gate;
 
         return $this;
     }
