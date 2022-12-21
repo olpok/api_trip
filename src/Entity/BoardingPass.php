@@ -16,38 +16,38 @@ class BoardingPass
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['show_passenger'])]
+    #[Groups(['list_voyages', 'show_voyage'])]
     private ?string $transport_type = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['show_passenger'])]
+    #[Groups(['list_voyages', 'show_voyage'])]
     private ?string $transport_number = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['show_passenger'])]
+    #[Groups(['list_voyages', 'show_voyage'])]
     private ?string $origin = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['show_passenger'])]
+    #[Groups(['list_voyages', 'show_voyage'])]
     private ?string $destination = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['show_passenger'])]
+    #[Groups(['list_voyages', 'show_voyage'])]
     private ?string $gate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['show_passenger'])]
+    #[Groups(['list_voyages', 'show_voyage'])]
     private ?string $seat = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['show_passenger'])]
+    #[Groups(['list_voyages', 'show_voyage'])]
     private ?string $baggage_info = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $departure_time = null;
 
     #[ORM\ManyToOne(inversedBy: 'boardingPasses')]
-    private ?Passenger $passenger = null;
+    private ?Voyage $voyage = null;
 
     public function getId(): ?int
     {
@@ -149,14 +149,14 @@ class BoardingPass
         return $this;
     }
 
-    public function getPassenger(): ?Passenger
+    public function getVoyage(): ?Voyage
     {
-        return $this->passenger;
+        return $this->voyage;
     }
 
-    public function setPassenger(?Passenger $passenger): self
+    public function setVoyage(?Voyage $voyage): self
     {
-        $this->passenger = $passenger;
+        $this->voyage = $voyage;
 
         return $this;
     }
