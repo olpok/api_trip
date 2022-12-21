@@ -2,39 +2,35 @@
 
 namespace App\Controller;
 
-use App\Entity\Passenger;
-use App\Repository\PassengerRepository;
+use App\Entity\Voyage;
+use App\Repository\VoyageRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class ApiPassengerController extends AbstractController
+class ApiVoyageController extends AbstractController
 {
-    #[Route('/api/passengers', name: 'api_passengers', methods: "GET")]
-    public function collection(PassengerRepository $passengerRepository): JsonResponse
+    #[Route('/api/voyages', name: 'api_voyages', methods: "GET")]
+    public function collection(VoyageRepository $voyageRepository): JsonResponse
     {
-        /*  return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/ApiPassengerController.php',
-        ]);*/
 
         return $this->json(
-            $passengerRepository->findAll(),
+            $voyageRepository->findAll(),
             200,
             [],
-            ["groups" => "list_passengers"]
+            ["groups" => "list_voyages"]
         );
     }
 
 
-    #[Route('/api/passengers/{id}', name: 'api_passengers_item_get', methods: "GET")]
-    public function item(Passenger $passenger, NormalizerInterface $normalizer) //: JsonResponse
+    #[Route('/api/voyages/{id}', name: 'api_voyages_item_get', methods: "GET")]
+    public function item(Voyage $voyage, NormalizerInterface $normalizer) //: JsonResponse
     {
         $respNormalized = $normalizer->normalize(
-            $passenger,
+            $voyage,
             null,
-            ["groups" => "show_passenger"]
+            ["groups" => "show_voyage"]
         );
 
         $myArray = [];

@@ -14,24 +14,23 @@ class Passenger
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['list_passengers'])] //['group1', 'group2']
+    #[Groups(['list_voyages'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['list_passengers'])]
+    #[Groups(['list_voyages'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['list_passengers'])]
+    #[Groups(['list_voyages'])]
     private ?string $lastname = null;
 
-    #[ORM\OneToMany(mappedBy: 'passenger', targetEntity: BoardingPass::class)]
-    #[Groups(['list_passengers', 'show_passenger'])]
-    private Collection $boardingPasses;
+    #[ORM\OneToMany(mappedBy: 'passenger', targetEntity: Voyage::class)]
+    private Collection $voyages;
 
     public function __construct()
     {
-        $this->boardingPasses = new ArrayCollection();
+        $this->voyages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -64,29 +63,29 @@ class Passenger
     }
 
     /**
-     * @return Collection<int, BoardingPass>
+     * @return Collection<int, Voyage>
      */
-    public function getBoardingPasses(): Collection
+    public function getVoyages(): Collection
     {
-        return $this->boardingPasses;
+        return $this->voyages;
     }
 
-    public function addBoardingPass(BoardingPass $boardingPass): self
+    public function addVoyage(Voyage $voyage): self
     {
-        if (!$this->boardingPasses->contains($boardingPass)) {
-            $this->boardingPasses->add($boardingPass);
-            $boardingPass->setPassenger($this);
+        if (!$this->voyages->contains($voyage)) {
+            $this->voyages->add($voyage);
+            $voyage->setPassenger($this);
         }
 
         return $this;
     }
 
-    public function removeBoardingPass(BoardingPass $boardingPass): self
+    public function removeVoyage(Voyage $voyage): self
     {
-        if ($this->boardingPasses->removeElement($boardingPass)) {
+        if ($this->voyages->removeElement($voyage)) {
             // set the owning side to null (unless already changed)
-            if ($boardingPass->getPassenger() === $this) {
-                $boardingPass->setPassenger(null);
+            if ($voyage->getPassenger() === $this) {
+                $voyage->setPassenger(null);
             }
         }
 

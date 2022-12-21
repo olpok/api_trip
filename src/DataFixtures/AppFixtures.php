@@ -2,6 +2,8 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Voyage;
+use DateTimeImmutable;
 use App\Entity\Passenger;
 use App\Entity\BoardingPass;
 use Doctrine\Persistence\ObjectManager;
@@ -22,8 +24,18 @@ class AppFixtures extends Fixture
         $manager->persist($passenger1);
         $manager->persist($passenger2);
 
-        //passenger1
-        // Take train 78A from Madrid to Barcelona. Sit in seat 45B.
+        $voyage1 = new Voyage();
+        $voyage1->setCreatedAt(new DateTimeImmutable());
+        $voyage1->setPassenger($passenger1);
+
+        $voyage2 = new Voyage();
+        $voyage2->setCreatedAt(new DateTimeImmutable());
+        $voyage2->setPassenger($passenger1);
+
+        $manager->persist($voyage1);
+        $manager->persist($voyage2);
+
+        //voyage1
         $pass1 = new BoardingPass();
         $pass1->setTransportType('train')
             ->setTransportNumber('78A')
@@ -31,21 +43,19 @@ class AppFixtures extends Fixture
             ->setOrigin('Madrid')
             ->setDestination('Barcelona')
             ->setDepartureTime(date_create('2023-03-15 09:36:18'))
-            ->setPassenger($passenger1);
+            ->setVoyage($voyage1);
 
         $manager->persist($pass1);
 
-        // Take the airport bus from Barcelona to Gerona Airport. No seat assignment.
         $pass2 = new BoardingPass();
         $pass2->setTransportType('bus')
             ->setOrigin('Barcelona')
             ->setDestination('Gerona Airport')
             ->setDepartureTime(date_create('2023-03-15 13:30:00'))
-            ->setPassenger($passenger1);
+            ->setVoyage($voyage1);
 
         $manager->persist($pass2);
 
-        // From Gerona Airport, take flight SK455 to Stockholm. Gate 45B, seat 3A. Baggage drop at ticket counter 344.
         $pass3 = new BoardingPass();
         $pass3->setTransportType('flight')
             ->setTransportNumber('SK455')
@@ -55,11 +65,10 @@ class AppFixtures extends Fixture
             ->setDestination('Stockholm ARN')
             ->setBaggageInfo('Baggage drop at ticket counter 344.')
             ->setDepartureTime(date_create('2023-03-15 16:00:00'))
-            ->setPassenger($passenger1);
+            ->setVoyage($voyage1);
 
         $manager->persist($pass3);
 
-        // From Stockholm, take flight SK22 to New York JFK. Gate 22, seat 7B. Baggage will we automatically transferred from your last leg.
         $pass4 = new BoardingPass();
         $pass4->setTransportType('flight')
             ->setTransportNumber('SK22')
@@ -69,13 +78,12 @@ class AppFixtures extends Fixture
             ->setDestination('New York JFK')
             ->setBaggageInfo('Baggage will we automatically transferred from your last leg.')
             ->setDepartureTime(date_create('2023-03-16 03:40:00'))
-            ->setPassenger($passenger1);
+            ->setVoyage($voyage1);
 
         $manager->persist($pass4);
 
+        //voyage2
 
-        //passenger 2
-        // Take train TGV INOUI 6632 from Lyon to Paris. Sit in seat 12A.
         $pass1 = new BoardingPass();
         $pass1->setTransportType('train TGV INOUI')
             ->setTransportNumber('6632')
@@ -83,21 +91,19 @@ class AppFixtures extends Fixture
             ->setOrigin('Lyon Part Dieu')
             ->setDestination('Paris Gare de Lyon')
             ->setDepartureTime(date_create('2023-02-10 07:32:00'))
-            ->setPassenger($passenger2);
+            ->setVoyage($voyage2);
 
         $manager->persist($pass1);
 
-        // Take the airport bus from Paris to Roissy-CDG Airport. No seat assignment.
         $pass2 = new BoardingPass();
         $pass2->setTransportType('bus')
             ->setOrigin('Paris')
             ->setDestination('Roissy-CDG Airport')
             ->setDepartureTime(date_create('2023-02-10 10:30:00'))
-            ->setPassenger($passenger2);
+            ->setVoyage($voyage2);
 
         $manager->persist($pass2);
 
-        // From Roissy-CDG Airport, take flight QR42 to Doha DOH. Gate 8B, seat 9A. Baggage drop at ticket counter 115.
         $pass3 = new BoardingPass();
         $pass3->setTransportType('flight')
             ->setTransportNumber('QR42')
@@ -107,11 +113,10 @@ class AppFixtures extends Fixture
             ->setDestination('Doha DOH')
             ->setBaggageInfo('Baggage drop at ticket counter 212.')
             ->setDepartureTime(date_create('2023-02-10 17:05:00'))
-            ->setPassenger($passenger2);
+            ->setVoyage($voyage2);
 
         $manager->persist($pass3);
 
-        // From Doha, take flight QR674 to Male MLE. Gate 22, seat 7B. Baggage will we automatically transferred from your last leg.
         $pass4 = new BoardingPass();
         $pass4->setTransportType('flight')
             ->setTransportNumber('QR674')
@@ -121,7 +126,7 @@ class AppFixtures extends Fixture
             ->setDestination('Male MLE')
             ->setBaggageInfo('Baggage will we automatically transferred from your last leg.')
             ->setDepartureTime(date_create('2023-02-11 04:35:00'))
-            ->setPassenger($passenger2);
+            ->setVoyage($voyage2);
 
         $manager->persist($pass4);
 
